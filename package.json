@@ -8,11 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/typography": "^0.3.1",
+    "autoprefixer": "^10.2.1",
     "firebase": "^8.2.1",
     "firebase-admin": "^9.4.2",
     "next": "10.0.4",
+    "postcss": "^8.2.3",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
     "prettier": "^2.2.1"
