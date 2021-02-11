@@ -15,19 +15,18 @@ const searchResults = () => {
   the app is updated to provide the route parameters. 
   */
   useEffect(() => {
+    const q = router.query.q;
+
+    const fetchBooks = async (q) => {
+      const response = await fetch(`http://openlibrary.org/search.json?q=${q}`);
+      const results = await response.json();
+
+      setNumBooksFound(results.numFound);
+      setBooks(results.docs);
+    };
+
     // Fetch only if query object is defined, else q will be undefined
-    if (typeof router.query.q !== undefined) {
-      const q = router.query.q;
-
-      const fetchBooks = async (q) => {
-        const response = await fetch(
-          `http://openlibrary.org/search.json?q=${q}`
-        );
-        const results = await response.json();
-
-        setNumBooksFound(results.numFound);
-        setBooks(results.docs);
-      };
+    if (q) {
       fetchBooks(q);
     }
   }, [router.query.q]);
@@ -35,7 +34,7 @@ const searchResults = () => {
   return (
     <div>
       <Navbar />
-      {numBooksFound}
+      {numBooksFound !== 0 && numBooksFound}
       <ul>
         {books.map((book) => (
           <li key={book.key}>{book.title}</li>
