@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Navbar from '@/components/Navbar';
+import BookCard from '@/components/BookCard';
 
 const searchResults = () => {
   const router = useRouter();
@@ -18,11 +19,18 @@ const searchResults = () => {
     const q = router.query.q;
 
     const fetchBooks = async (q) => {
-      const response = await fetch(`http://openlibrary.org/search.json?q=${q}`);
+      const response = await fetch(
+        `https://openlibrary.org/search.json?q=${q}`
+      );
       const results = await response.json();
+      // Remove results without covers and broken images
+      const filteredResults = results.docs.filter(
+        (doc) => Object.keys(doc).includes('cover_i') && doc['cover_i'] !== -1
+      );
 
       setNumBooksFound(results.numFound);
-      setBooks(results.docs);
+      setBooks(filteredResults);
+      console.log(results);
     };
 
     // Fetch only if query object is defined, else q will be undefined
@@ -34,12 +42,22 @@ const searchResults = () => {
   return (
     <div>
       <Navbar />
-      {numBooksFound !== 0 && numBooksFound}
-      <ul>
-        {books.map((book) => (
-          <li key={book.key}>{book.title}</li>
-        ))}
-      </ul>
+      <div className='max-w-5xl mx-auto mt-10 bg-white shadow overflow-hidden sm:rounded-md'>
+        {/* {numBooksFound !== 0 && numBooksFound} */}
+        <ul className='divide-y divide-gray-200'>
+          {books.map((book) => (
+            <li>
+              <BookCard
+                key={book.key}
+                bookKey={book.key}
+                title={book.title}
+                author={book.author_name}
+                coverId={book.cover_i}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

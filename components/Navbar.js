@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <header>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6'>
+      <div className='max-w-7xl mx-auto'>
         <div className='flex justify-between items-center border-b-2 border-gray-100 py-6 '>
           <Link href='/'>
             <a className='text-4xl font-extrabold'>OpenShelf</a>
