@@ -11,7 +11,7 @@ export default function Login() {
   return (
     <div>
       <Navbar />
-      <div className='mt-12 min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+      <div className='mt-8 min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:max-w-md sm:w-full sm:mx-auto'>
           <h2 className='text-center text-3xl font-extrabold text-gray-900'>
             Sign In

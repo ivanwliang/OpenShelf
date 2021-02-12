@@ -1,8 +1,11 @@
 import Link from 'next/link';
 
 const BookCard = ({ bookKey, title, coverId, author }) => {
+  // bookKey has format "/works/..." Just want the ID that comes after
+  const strippedKey = bookKey.substring(7);
+
   return (
-    <Link href='#'>
+    <Link href={`book/${strippedKey}`}>
       <a className='block hover:bg-gray-50'>
         <div className='flex items-center px-4 py-4 sm:px-6'>
           <div className='min-w-0 flex-1 flex items-center space-x-5'>

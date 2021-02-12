@@ -33,7 +33,7 @@ const searchResults = () => {
       console.log(results);
     };
 
-    // Fetch only if query object is defined, else q will be undefined
+    // Fetch only if query object is defined, else will search for undefined
     if (q) {
       fetchBooks(q);
     }
