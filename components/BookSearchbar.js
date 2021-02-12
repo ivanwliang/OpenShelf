@@ -22,9 +22,10 @@ const BookSearchbar = () => {
           name='bookSearch'
           type='text'
           placeholder='Lord of the Rings'
+          required
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='block w-full pl-10 border-gray-300 rounded-none rounded-l-md placeholder-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg'
+          className='block w-full pl-6 border-gray-300 rounded-none rounded-l-md placeholder-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg'
         />
         <button
           type='submit'

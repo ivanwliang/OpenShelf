@@ -42,7 +42,7 @@ const searchResults = () => {
   return (
     <div>
       <Navbar />
-      <div className='max-w-5xl mx-auto mt-10 bg-white shadow overflow-hidden sm:rounded-md'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 mt-4 bg-white overflow-hidden sm:rounded-md'>
         {/* {numBooksFound !== 0 && numBooksFound} */}
         <ul className='divide-y divide-gray-200'>
           {books.map((book) => (
