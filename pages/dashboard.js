@@ -1,5 +1,4 @@
 import { useAuth } from '@/lib/auth';
-
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';

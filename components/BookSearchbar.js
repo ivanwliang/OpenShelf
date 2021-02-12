@@ -21,7 +21,7 @@ const BookSearchbar = () => {
           id='bookSearch'
           name='bookSearch'
           type='text'
-          placeholder='Lord of the Rings'
+          placeholder='Search for a book'
           required
           value={search}
           onChange={(e) => setSearch(e.target.value)}

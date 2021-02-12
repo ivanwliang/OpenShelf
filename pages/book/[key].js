@@ -3,8 +3,11 @@ import { useRouter } from 'next/router';
 
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
+import { addBook } from '@/lib/db';
+import { useAuth } from '@/lib/auth';
 
 const BookDetail = () => {
+  const auth = useAuth();
   const router = useRouter();
   const { key } = router.query;
 
@@ -29,7 +32,6 @@ const BookDetail = () => {
       setAuthorKey(result.authors[0].author.key);
     };
 
-    // Fetch only if query object is defined, else will search for undefined
     if (key) {
       fetchBook(key);
     }
@@ -47,6 +49,25 @@ const BookDetail = () => {
       fetchAuthor(authorKey);
     }
   }, [authorKey]);
+
+  const handleClick = () => {
+    const authorName = authorDetails.name;
+    const authorBio = authorDetails?.bio?.value || '';
+    const cover = covers ? covers[0] : '';
+
+    if (auth.user) {
+      addBook(auth.user.uid, key, {
+        title,
+        subtitle,
+        authorName,
+        authorBio,
+        cover,
+        description,
+      });
+    } else {
+      router.push('/login');
+    }
+  };
 
   return (
     <div>
@@ -68,33 +89,16 @@ const BookDetail = () => {
         {covers && (
           <img src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`} />
         )}
+        <button
+          type='button'
+          className='inline-flex items-center mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+          onClick={handleClick}
+        >
+          Add to Reading List
+        </button>
       </main>
     </div>
   );
 };
-
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//       { params: { ... } } // See the "paths" section below
-//     ],
-//     fallback: true
-//   };
-// }
-
-// export async function getStaticProps({params}) {
-//   const result = await fetch('https://.../posts')
-//   const posts = await result.json()
-
-//   return {
-//     props: {
-//       posts,
-//     },
-//     // Next.js will attempt to re-generate the page:
-//     // - When a request comes in
-//     // - At most once every second
-//     revalidate: 1, // In seconds
-//   }
-// }
 
 export default BookDetail;
