@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import Navbar from '@/components/Navbar';
 import BookCard from '@/components/BookCard';
+import BookSearchbar from '@/components/BookSearchbar';
 
 const searchResults = () => {
   const router = useRouter();
@@ -30,7 +31,6 @@ const searchResults = () => {
 
       setNumBooksFound(results.numFound);
       setBooks(filteredResults);
-      console.log(results);
     };
 
     // Fetch only if query object is defined, else will search for undefined
@@ -42,13 +42,15 @@ const searchResults = () => {
   return (
     <div>
       <Navbar />
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 mt-4 bg-white overflow-hidden sm:rounded-md'>
+      <main className='max-w-7xl mx-auto px-4 sm:px-6 bg-white overflow-hidden sm:rounded-md'>
+        <div className='max-w-5xl mx-auto py-12 mt-2'>
+          <BookSearchbar />
+        </div>
         {/* {numBooksFound !== 0 && numBooksFound} */}
         <ul className='divide-y divide-gray-200'>
           {books.map((book) => (
-            <li>
+            <li key={book.key}>
               <BookCard
-                key={book.key}
                 bookKey={book.key}
                 title={book.title}
                 author={book.author_name}
@@ -57,7 +59,7 @@ const searchResults = () => {
             </li>
           ))}
         </ul>
-      </div>
+      </main>
     </div>
   );
 };

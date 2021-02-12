@@ -8,27 +8,25 @@ const BookDetail = () => {
   const router = useRouter();
   const { key } = router.query;
 
+  const [authorKey, setAuthorKey] = useState('');
+  const [authorDetails, setAuthorDetails] = useState({});
   const [bookDetails, setBookDetails] = useState({});
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState({});
-  const [subtitle, setSubtitle] = useState('');
-  const [description, setDescription] = useState({});
-  const [covers, setCovers] = useState([]);
-  // const { title, subtitle, authors, covers, description = '' } = bookDetails;
-  // console.log(bookDetails.covers[1]);
+  const {
+    title,
+    subtitle = '',
+    authors,
+    covers,
+    description = '',
+  } = bookDetails;
 
   useEffect(() => {
     const fetchBook = async (key) => {
       const response = await fetch(`https://openlibrary.org/works/${key}.json`);
       const result = await response.json();
 
+      setBookDetails(result);
       console.log(result);
-      // setBookDetails(result);
-      setTitle(result.title);
-      setSubtitle(result.subtitle);
-      setDescription(result.description);
-      setAuthor(result.authors);
-      setCovers(result.covers);
+      setAuthorKey(result.authors[0].author.key);
     };
 
     // Fetch only if query object is defined, else will search for undefined
@@ -37,6 +35,19 @@ const BookDetail = () => {
     }
   }, [key]);
 
+  useEffect(() => {
+    const fetchAuthor = async (authorKey) => {
+      const response = await fetch(`https://openlibrary.org${authorKey}.json`);
+      const result = await response.json();
+
+      setAuthorDetails(result);
+    };
+
+    if (authorKey) {
+      fetchAuthor(authorKey);
+    }
+  }, [authorKey]);
+
   return (
     <div>
       <Navbar />
@@ -44,16 +55,18 @@ const BookDetail = () => {
         <div className='max-w-5xl mx-auto py-12 mt-2'>
           <BookSearchbar />
         </div>
-        <p>Book key: {key}</p>
-        <p>Title: {title}</p>
+
+        <p>{title}</p>
         {subtitle && <p>Subtitle: {subtitle}</p>}
-        {/* <p>Author: {authors[0]}</p> */}
+        {authorDetails && (
+          <div>
+            {authorDetails && <p>By: {authorDetails.name}</p>}
+            {authorDetails.bio && <p>Bio {authorDetails.bio.value}</p>}
+          </div>
+        )}
         {description && <p>Description: {description.value}</p>}
-        {covers[0] && (
-          <img
-            src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`}
-            className='rounded-sm'
-          />
+        {covers && (
+          <img src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`} />
         )}
       </main>
     </div>
