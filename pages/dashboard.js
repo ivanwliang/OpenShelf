@@ -1,4 +1,5 @@
 import { useAuth } from '@/lib/auth';
+import { getAllBooks } from '@/lib/db-admin';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
@@ -33,5 +34,9 @@ const Dashboard = () => {
     </div>
   );
 };
+
+// export async function getStaticProps() {
+//   const res = await getAllBooks()
+// }
 
 export default Dashboard;
