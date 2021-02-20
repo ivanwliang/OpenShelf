@@ -31,12 +31,12 @@ const Dashboard = () => {
           <BookSearchbar />
         </div>
         <Shelf />
-        <button
+        {/* <button
           type='button'
           className='inline-flex items-center mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
         >
           Add New Shelf
-        </button>
+        </button> */}
         <ul>
           {books &&
             books.map((book) => {
@@ -56,16 +56,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
-// export async function getStaticProps() {
-//   const res = await getAllBooks('peI0gYnHmygxKjTb4YqIkO3Lt8B2');
-//   console.log(res);
-//   // const books = await res.json();
-//   const books = { test: 'test' };
-
-//   return {
-//     props: { books },
-//   };
-// }
 
 export default Dashboard;
