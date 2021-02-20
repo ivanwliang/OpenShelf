@@ -87,7 +87,7 @@ const BookDetail = () => {
             {authorDetails.bio && <p>Bio {authorDetails.bio.value}</p>}
           </div>
         )}
-        {description && <p>Description: {description.value}</p>}
+        {description && <p>Description: {description}</p>}
         {covers && (
           <img src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`} />
         )}
