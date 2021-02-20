@@ -21,6 +21,8 @@ const Dashboard = () => {
     }
   }, [auth.user]);
 
+  console.log(books);
+
   return auth.user ? (
     <div>
       <Navbar />
@@ -35,6 +37,12 @@ const Dashboard = () => {
         >
           Add New Shelf
         </button>
+        <ul>
+          {books &&
+            books.map((book) => {
+              return <li key={book.bookKey}>{book.title}</li>;
+            })}
+        </ul>
       </main>
     </div>
   ) : (

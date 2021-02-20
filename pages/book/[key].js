@@ -18,6 +18,7 @@ const BookDetail = () => {
     title,
     subtitle = '',
     authors,
+    subjects = [],
     covers,
     description = '',
   } = bookDetails;
@@ -63,6 +64,7 @@ const BookDetail = () => {
         authorBio,
         cover,
         description,
+        subjects,
       });
     } else {
       router.push('/login');
@@ -89,6 +91,10 @@ const BookDetail = () => {
         {covers && (
           <img src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`} />
         )}
+        <ul>
+          {subjects &&
+            subjects.map((subject) => <li key={subject}>{subject}</li>)}
+        </ul>
         <button
           type='button'
           className='inline-flex items-center mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
