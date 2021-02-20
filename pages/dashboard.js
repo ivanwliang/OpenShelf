@@ -1,10 +1,25 @@
 import { useAuth } from '@/lib/auth';
+import { getAllBooks } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
+import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
   const auth = useAuth();
+
+  const [books, setBooks] = useState([]);
+
+  // Wait for user to load before fetching their books
+  useEffect(() => {
+    if (auth.user) {
+      const fetchData = async () => {
+        const result = await getAllBooks(auth.user.uid);
+        setBooks(result);
+      };
+      fetchData();
+    }
+  }, [auth.user]);
 
   return auth.user ? (
     <div>
@@ -35,9 +50,14 @@ const Dashboard = () => {
 };
 
 // export async function getStaticProps() {
-// import { getAllBooks } from '@/lib/db-admin';
+//   const res = await getAllBooks('peI0gYnHmygxKjTb4YqIkO3Lt8B2');
+//   console.log(res);
+//   // const books = await res.json();
+//   const books = { test: 'test' };
 
-//   const res = await getAllBooks()
+//   return {
+//     props: { books },
+//   };
 // }
 
 export default Dashboard;
