@@ -3,6 +3,7 @@ import { getAllBooks } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
+import BookCard from '@/components/BookCard';
 import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
@@ -40,7 +41,19 @@ const Dashboard = () => {
         <ul>
           {books &&
             books.map((book) => {
-              return <li key={book.bookKey}>{book.title}</li>;
+              return (
+                <BookCard
+                  key={book.bookKey}
+                  bookKey={book.bookKey}
+                  title={book.title}
+                  coverId={book.cover}
+                  author={book.authorName}
+                  book={book}
+                  dashboard={true}
+                >
+                  {book.title}
+                </BookCard>
+              );
             })}
         </ul>
       </main>

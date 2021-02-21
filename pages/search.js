@@ -55,6 +55,7 @@ const searchResults = () => {
                 title={book.title}
                 author={book.author_name}
                 coverId={book.cover_i}
+                dashboard={false}
               />
             </li>
           ))}

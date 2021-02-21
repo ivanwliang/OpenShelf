@@ -66,6 +66,8 @@ const BookDetail = () => {
         description,
         subjects,
       });
+
+      router.push('/dashboard');
     } else {
       router.push('/login');
     }
