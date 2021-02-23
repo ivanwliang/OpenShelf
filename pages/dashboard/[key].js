@@ -5,6 +5,7 @@ import { getUserBook } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import { useAuth } from '@/lib/auth';
+import Notes from '@/components/Notes';
 
 const UserBookDetail = () => {
   const auth = useAuth();
@@ -65,6 +66,9 @@ const UserBookDetail = () => {
           {subjects &&
             subjects.map((subject) => <li key={subject}>{subject}</li>)}
         </ul>
+        <hr></hr>
+        <h2>Notes</h2>
+        <Notes />
       </main>
     </div>
   );

@@ -19,6 +19,8 @@
     "postcss": "^8.2.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "slate": "^0.59.0",
+    "slate-react": "^0.59.0",
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
