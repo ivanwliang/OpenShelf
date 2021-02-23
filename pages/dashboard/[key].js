@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import { getUserBook } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import { useAuth } from '@/lib/auth';
@@ -10,6 +11,36 @@ const UserBookDetail = () => {
   const router = useRouter();
   const { key } = router.query;
 
+  const [bookDetails, setBookDetails] = useState({});
+  const {
+    authorBio = '',
+    authorName = '',
+    description = '',
+    bookKey,
+    cover,
+    notes,
+    shelf,
+    subjects,
+    subtitle,
+    title,
+    userRating,
+    userReview,
+  } = bookDetails;
+
+  useEffect(() => {
+    const fetchBook = async (uid, key) => {
+      const result = await getUserBook(uid, key);
+      console.log(result);
+
+      setBookDetails(result);
+    };
+
+    if (auth.user && key) {
+      const uid = auth.user.uid;
+      fetchBook(uid, key);
+    }
+  }, [key, auth.user]);
+
   return (
     <div>
       <Navbar />
@@ -18,29 +49,22 @@ const UserBookDetail = () => {
           <BookSearchbar />
         </div>
 
-        {/* <p>{title}</p>
+        <p>{title}</p>
         {subtitle && <p>Subtitle: {subtitle}</p>}
-        {authorDetails && (
-          <div>
-            {authorDetails && <p>By: {authorDetails.name}</p>}
-            {authorDetails.bio && <p>Bio {authorDetails.bio.value}</p>}
-          </div>
-        )}
+
+        <div>
+          <p>By: {authorName}</p>
+          {authorBio && <p>Bio {authorBio}</p>}
+        </div>
+
         {description && <p>Description: {description}</p>}
-        {covers && (
-          <img src={`https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`} />
+        {cover && (
+          <img src={`https://covers.openlibrary.org/b/id/${cover}-L.jpg`} />
         )}
         <ul>
           {subjects &&
             subjects.map((subject) => <li key={subject}>{subject}</li>)}
         </ul>
-        <button
-          type='button'
-          className='inline-flex items-center mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-          onClick={handleClick}
-        >
-          Add to Reading List
-        </button> */}
       </main>
     </div>
   );

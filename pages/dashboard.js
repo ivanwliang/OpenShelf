@@ -1,10 +1,11 @@
+import { useState, useEffect } from 'react';
+
 import { useAuth } from '@/lib/auth';
 import { getAllBooks } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
 import BookCard from '@/components/BookCard';
-import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
   const auth = useAuth();
@@ -48,7 +49,6 @@ const Dashboard = () => {
                   title={book.title}
                   coverId={book.cover}
                   author={book.authorName}
-                  book={book}
                   dashboard={true}
                 >
                   {book.title}

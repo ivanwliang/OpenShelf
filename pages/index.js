@@ -1,7 +1,18 @@
+import { useRouter } from 'next/router';
+
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
+import { useAuth } from '@/lib/auth';
 
 export default function Index() {
+  const auth = useAuth();
+  const router = useRouter();
+
+  // Redirect user to dashboard if logged in
+  if (auth.user) {
+    router.push('/dashboard');
+  }
+
   return (
     <div className='bg-white'>
       <Navbar />
