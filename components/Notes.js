@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { createEditor, Editor, Transforms, Text } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
+import debounce from 'debounce';
+
+import { updateNote } from '@/lib/db';
 
 const CustomEditor = {
   isBoldMarkActive(editor) {
@@ -63,14 +66,15 @@ const Leaf = (props) => {
   );
 };
 
-export default function Notes() {
+export default function Notes({ notes, uid, bookKey }) {
+  console.log(notes);
   // const editor = useMemo(() => withReact(createEditor()), []);
   const [editor] = useState(() => withReact(createEditor()));
   const [value, setValue] = useState(
-    JSON.parse(localStorage.getItem('content')) || [
+    JSON.parse(notes) || [
       {
         type: 'paragraph',
-        children: [{ text: 'A line of text in a paragraph.' }],
+        children: [{ text: 'Take your book notes here' }],
       },
     ]
   );
@@ -98,11 +102,7 @@ export default function Notes() {
       onChange={(newValue) => {
         setValue(newValue);
         const content = JSON.stringify(value);
-
-        // No localStorage when rendering on server
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('content', content);
-        }
+        debounce(updateNote(uid, bookKey, content), 2000);
       }}
     >
       <div>

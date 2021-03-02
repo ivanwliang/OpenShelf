@@ -14,6 +14,7 @@ const UserBookDetail = () => {
 
   const [bookDetails, setBookDetails] = useState({});
   const {
+    uid,
     authorBio = '',
     authorName = '',
     description = '',
@@ -68,7 +69,7 @@ const UserBookDetail = () => {
         </ul>
         <hr></hr>
         <h2>Notes</h2>
-        <Notes />
+        {notes && <Notes notes={notes} uid={uid} bookKey={bookKey} />}
       </main>
     </div>
   );
