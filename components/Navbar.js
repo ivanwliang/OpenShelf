@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { useAuth } from '@/lib/auth';
+import { useAuth } from '../lib/auth';
 
 export default function Navbar() {
   const auth = useAuth();
@@ -12,20 +12,25 @@ export default function Navbar() {
           <Link href='/'>
             <a className='text-4xl font-extrabold'>OpenShelf</a>
           </Link>
-          {auth.user ? (
-            <button
-              onClick={() => auth.signout()}
-              className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'
-            >
-              Sign Out
-            </button>
-          ) : (
-            <Link href='/login'>
-              <a className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'>
-                Login
-              </a>
+          <div>
+            <Link href='/about'>
+              <a className=''>About</a>
             </Link>
-          )}
+            {auth.user ? (
+              <button
+                onClick={() => auth.signout()}
+                className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link href='/login'>
+                <a className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'>
+                  Login
+                </a>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>

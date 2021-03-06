@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 
-import Navbar from '@/components/Navbar';
-import BookSearchbar from '@/components/BookSearchbar';
-import { useAuth } from '@/lib/auth';
+import Navbar from '../components/Navbar';
+import BookSearchbar from '../components/BookSearchbar';
+import { useAuth } from '../lib/auth';
 
 export default function Index() {
   const auth = useAuth();

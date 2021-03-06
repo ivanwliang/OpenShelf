@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import ReactMarkdown from 'react-markdown';
 
 import { getUserBook } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import { useAuth } from '@/lib/auth';
 import Notes from '@/components/Notes';
+import StarRating from '@/components/StarRating';
 
 const UserBookDetail = () => {
   const auth = useAuth();
@@ -15,15 +17,12 @@ const UserBookDetail = () => {
   const [bookDetails, setBookDetails] = useState({});
   const {
     uid,
-    authorBio = '',
     authorName = '',
     description = '',
     bookKey,
     cover,
     notes,
     shelf,
-    subjects,
-    subtitle,
     title,
     userRating,
     userReview,
@@ -32,7 +31,6 @@ const UserBookDetail = () => {
   useEffect(() => {
     const fetchBook = async (uid, key) => {
       const result = await getUserBook(uid, key);
-      console.log(result);
 
       setBookDetails(result);
     };
@@ -43,34 +41,49 @@ const UserBookDetail = () => {
     }
   }, [key, auth.user]);
 
+  // if (!uid) {
+  //   return null;
+  // }
+
   return (
     <div>
       <Navbar />
-      <main className='max-w-7xl mx-auto px-4 sm:px-6'>
-        <div className='max-w-5xl mx-auto py-12 mt-2'>
-          <BookSearchbar />
+      <div className='max-w-6xl mx-auto px-6 py-12 mt-2'>
+        <BookSearchbar />
+      </div>
+      <div className='max-w-6xl mx-auto px-6 '>
+        <main className=''>
+          {cover && (
+            <img
+              className='md:float-left mb-6 md:mr-10 mx-auto'
+              src={`https://covers.openlibrary.org/b/id/${cover}-L.jpg`}
+            />
+          )}
+
+          <div className='mb-6 space-y-2'>
+            <h1 className='text-3xl font-bold leading-7'>{title}</h1>
+            <p>{authorName}</p>
+          </div>
+
+          {description && <ReactMarkdown>{description}</ReactMarkdown>}
+        </main>
+
+        <div className='mt-8'>
+          <h2 className='text-3xl font-bold'>
+            <span className='text-gray-900'>Review</span>
+          </h2>
+          <StarRating rating={userRating} uid={uid} bookKey={bookKey} />
         </div>
 
-        <p>{title}</p>
-        {subtitle && <p>Subtitle: {subtitle}</p>}
-
-        <div>
-          <p>By: {authorName}</p>
-          {authorBio && <p>Bio {authorBio}</p>}
+        <div className='mt-8'>
+          <h2 className='text-3xl font-bold'>
+            <span className='text-gray-900'>Notes</span>
+          </h2>
+          <div className='mt-3 mb-6 py-6 px-6 bg-white shadow-md border border-gray-400 sm:rounded-lg'>
+            {notes && <Notes notes={notes} uid={uid} bookKey={bookKey} />}
+          </div>
         </div>
-
-        {description && <p>Description: {description}</p>}
-        {cover && (
-          <img src={`https://covers.openlibrary.org/b/id/${cover}-L.jpg`} />
-        )}
-        <ul>
-          {subjects &&
-            subjects.map((subject) => <li key={subject}>{subject}</li>)}
-        </ul>
-        <hr></hr>
-        <h2>Notes</h2>
-        {notes && <Notes notes={notes} uid={uid} bookKey={bookKey} />}
-      </main>
+      </div>
     </div>
   );
 };
