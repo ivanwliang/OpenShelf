@@ -1,70 +1,74 @@
 import { useState, useEffect } from 'react';
+import Router from 'next/router';
 
 import { useAuth } from '@/lib/auth';
 import { getAllBooks } from '@/lib/db';
 import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
-import BookCard from '@/components/BookCard';
 
 const Dashboard = () => {
-  const auth = useAuth();
-
   const [books, setBooks] = useState([]);
 
-  // Wait for user to load before fetching their books
+  const auth = useAuth();
+
+  // If no user found, redirect to login page
   useEffect(() => {
+    // If there is no user even after auth has finished loading, redirect to login page
+    if (!auth.user && !auth.loading) {
+      Router.push('/login');
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    // Wait for user to load before fetching their books
     if (auth.user) {
       const fetchData = async () => {
         const result = await getAllBooks(auth.user.uid);
+        console.log(result);
         setBooks(result);
       };
       fetchData();
     }
   }, [auth.user]);
 
-  console.log(books);
+  // Prevent flash of dashboard content if not authenticated
+  if (!auth.user) {
+    return null;
+  }
 
-  return auth.user ? (
+  // Show empty state if user has not added any books yet
+  if (books.length === 0) {
+    return (
+      <div>
+        <Navbar />
+        <div className='max-w-7xl mx-auto px-4 sm:px-6'>
+          <div className='max-w-5xl mx-auto py-12 mt-2'>
+            <BookSearchbar />
+          </div>
+
+          <p>Add some books</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <div>
       <Navbar />
       <main className='max-w-7xl mx-auto px-4 sm:px-6'>
         <div className='max-w-5xl mx-auto py-12 mt-2'>
           <BookSearchbar />
         </div>
-        <Shelf />
-        {/* <button
-          type='button'
-          className='inline-flex items-center mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-        >
-          Add New Shelf
-        </button> */}
-        <ul>
-          {books &&
-            books.map((book) => {
-              return (
-                <BookCard
-                  key={book.bookKey}
-                  bookKey={book.bookKey}
-                  title={book.title}
-                  coverId={book.cover}
-                  author={book.authorName}
-                  dashboard={true}
-                >
-                  {book.title}
-                </BookCard>
-              );
-            })}
-        </ul>
-      </main>
-    </div>
-  ) : (
-    <div>
-      <Navbar />
-      <main className='max-w-7xl mx-auto px-4 sm:px-6'>
-        <div className='bg-white overflow-hidden shadow rounded-lg'>
-          <div className='px-4 py-5 sm:p-6'>Login Bum</div>
-        </div>
+
+        {/* Render shelf for "Currently Reading" books */}
+        <Shelf books={books} shelfName='Currently Reading' />
+
+        {/* Render shelf for "Want to Read" books */}
+        <Shelf books={books} shelfName='Want to Read' />
+
+        {/* Render shelf for "Finished reading" books */}
+        <Shelf books={books} shelfName='Finished Reading' />
       </main>
     </div>
   );

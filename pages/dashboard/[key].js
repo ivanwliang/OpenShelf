@@ -76,8 +76,8 @@ const UserBookDetail = () => {
 
         <div className='clear-left'>
           <div className='mt-8'>
-            <h2 className='text-3xl font-bold'>
-              <span className='text-gray-900'>Review</span>
+            <h2 className='text-3xl font-bold mb-4'>
+              <span className='text-gray-900'>Rating</span>
             </h2>
             <StarRating rating={userRating} uid={uid} bookKey={bookKey} />
           </div>

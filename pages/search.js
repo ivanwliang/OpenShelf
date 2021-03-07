@@ -10,6 +10,7 @@ const searchResults = () => {
 
   const [books, setBooks] = useState([]);
   const [numBooksFound, setNumBooksFound] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   /* 
   Per the documentation on Next.js dynamic routes https://nextjs.org/docs/routing/dynamic-routes,
@@ -23,6 +24,9 @@ const searchResults = () => {
       const response = await fetch(
         `https://openlibrary.org/search.json?q=${q}`
       );
+
+      setLoading(true);
+
       const results = await response.json();
       // Remove results without covers and broken images
       const filteredResults = results.docs.filter(
@@ -31,6 +35,7 @@ const searchResults = () => {
 
       setNumBooksFound(results.numFound);
       setBooks(filteredResults);
+      setLoading(false);
     };
 
     // Fetch only if query object is defined, else will search for undefined
@@ -39,10 +44,14 @@ const searchResults = () => {
     }
   }, [router.query.q]);
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <div>
       <Navbar />
-      <main className='max-w-7xl mx-auto px-4 sm:px-6 bg-white overflow-hidden sm:rounded-md'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 bg-white overflow-hidden sm:rounded-md'>
         <div className='max-w-5xl mx-auto py-12 mt-2'>
           <BookSearchbar />
         </div>
@@ -60,7 +69,11 @@ const searchResults = () => {
             </li>
           ))}
         </ul>
-      </main>
+        <p className='text-center text-gray-800 text-sm mt-4'>
+          Didn't find your book? Try adding more keywords, such as the Author's
+          name.
+        </p>
+      </div>
     </div>
   );
 };
