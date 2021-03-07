@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { updateRating } from '@/lib/db';
 
@@ -20,8 +20,6 @@ const Star = ({ selected = false, onClick }) => {
 
 const StarRating = ({ rating, uid, bookKey }) => {
   const [starsSelected, selectStar] = useState(rating);
-
-  useEffect(() => selectStar(rating), [rating]);
 
   const handleClick = (i) => {
     selectStar(i + 1);

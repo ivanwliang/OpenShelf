@@ -32,6 +32,11 @@ const UserBookDetail = () => {
     const fetchBook = async (uid, key) => {
       const result = await getUserBook(uid, key);
 
+      // Reshape description into proper format - sometimes it returns as description or description.value
+      if (typeof result.description === 'object') {
+        result.description = result.description.value;
+      }
+
       setBookDetails(result);
     };
 
@@ -41,9 +46,10 @@ const UserBookDetail = () => {
     }
   }, [key, auth.user]);
 
-  // if (!uid) {
-  //   return null;
-  // }
+  // Wait for data fetch to finish before passing down props to StarRating
+  if (!bookKey) {
+    return null;
+  }
 
   return (
     <div>
@@ -51,7 +57,7 @@ const UserBookDetail = () => {
       <div className='max-w-6xl mx-auto px-6 py-12 mt-2'>
         <BookSearchbar />
       </div>
-      <div className='max-w-6xl mx-auto px-6 '>
+      <div className='max-w-6xl mx-auto px-6'>
         <main className=''>
           {cover && (
             <img
@@ -68,19 +74,21 @@ const UserBookDetail = () => {
           {description && <ReactMarkdown>{description}</ReactMarkdown>}
         </main>
 
-        <div className='mt-8'>
-          <h2 className='text-3xl font-bold'>
-            <span className='text-gray-900'>Review</span>
-          </h2>
-          <StarRating rating={userRating} uid={uid} bookKey={bookKey} />
-        </div>
+        <div className='clear-left'>
+          <div className='mt-8'>
+            <h2 className='text-3xl font-bold'>
+              <span className='text-gray-900'>Review</span>
+            </h2>
+            <StarRating rating={userRating} uid={uid} bookKey={bookKey} />
+          </div>
 
-        <div className='mt-8'>
-          <h2 className='text-3xl font-bold'>
-            <span className='text-gray-900'>Notes</span>
-          </h2>
-          <div className='mt-3 mb-6 py-6 px-6 bg-white shadow-md border border-gray-400 sm:rounded-lg'>
-            {notes && <Notes notes={notes} uid={uid} bookKey={bookKey} />}
+          <div className='mt-8'>
+            <h2 className='text-3xl font-bold'>
+              <span className='text-gray-900'>Notes</span>
+            </h2>
+            <div className='mt-3 mb-6 py-6 px-6 bg-white shadow-md border border-gray-400 sm:rounded-lg'>
+              <Notes notes={notes} uid={uid} bookKey={bookKey} />
+            </div>
           </div>
         </div>
       </div>

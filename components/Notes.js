@@ -69,7 +69,7 @@ const Leaf = (props) => {
 export default function Notes({ notes, uid, bookKey }) {
   const [editor] = useState(() => withReact(createEditor()));
   const [value, setValue] = useState(
-    JSON.parse(notes) || [
+    (notes && JSON.parse(notes)) || [
       {
         type: 'paragraph',
         children: [{ text: 'Take your book notes here' }],
