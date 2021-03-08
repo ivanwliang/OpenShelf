@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
+import firebase from '@/lib/firebase';
 
 import { useAuth } from '@/lib/auth';
 import { getAllBooks } from '@/lib/db';
@@ -7,10 +8,12 @@ import Navbar from '@/components/Navbar';
 import BookSearchbar from '@/components/BookSearchbar';
 import Shelf from '@/components/Shelf';
 
-const Dashboard = () => {
-  const [books, setBooks] = useState([]);
+const firestore = firebase.firestore();
 
+const Dashboard = () => {
   const auth = useAuth();
+
+  const [books, setBooks] = useState([]);
 
   // If no user found, redirect to login page
   useEffect(() => {
@@ -20,15 +23,22 @@ const Dashboard = () => {
     }
   }, [auth]);
 
+  // Subscribe to list of user's books
   useEffect(() => {
-    // Wait for user to load before fetching their books
+    // Wait for user to load before fetching books
     if (auth.user) {
-      const fetchData = async () => {
-        const result = await getAllBooks(auth.user.uid);
-        console.log(result);
-        setBooks(result);
-      };
-      fetchData();
+      return firestore
+        .collection('users')
+        .doc(auth.user.uid)
+        .collection('books')
+        .onSnapshot((snapshot) => {
+          var result = [];
+          snapshot.forEach((doc) => {
+            doc = doc.data();
+            result.push({ bookKey: doc.bookKey, ...doc });
+          });
+          setBooks(result);
+        });
     }
   }, [auth.user]);
 
