@@ -26,6 +26,7 @@ const Shelf = ({ books, shelfName }) => {
             coverId={book.cover}
             author={book.authorName}
             dashboard={true}
+            shelf={slug}
           >
             {book.title}
           </BookCard>
