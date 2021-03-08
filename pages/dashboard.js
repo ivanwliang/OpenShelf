@@ -57,7 +57,9 @@ const Dashboard = () => {
             <BookSearchbar />
           </div>
 
-          <p>Add some books</p>
+          <p className='text-center text-xl font-medium text-gray-700 mt-4'>
+            Add some books
+          </p>
         </div>
       </div>
     );
