@@ -24,7 +24,7 @@ const BookCard = ({
 
   if (dashboard) {
     return (
-      <div className='hover:bg-gray-50 flex'>
+      <div className='hover:bg-gray-50 block sm:flex'>
         <Link href={`dashboard/${bookKey}`}>
           <a className='flex-grow'>
             <div className='flex items-center px-4 py-4 sm:px-6'>

@@ -14,7 +14,7 @@ export default function Navbar() {
               <Link href='/dashboard'>
                 <a className='text-4xl font-extrabold'>OpenShelf</a>
               </Link>
-              <div>
+              <div className='space-x-4'>
                 <Link href='/about'>
                   <a className=''>About</a>
                 </Link>
@@ -32,7 +32,7 @@ export default function Navbar() {
               <Link href='/'>
                 <a className='text-4xl font-extrabold'>OpenShelf</a>
               </Link>
-              <div>
+              <div className='space-x-4'>
                 <Link href='/about'>
                   <a className=''>About</a>
                 </Link>
