@@ -12,13 +12,9 @@ export default function Navbar() {
           {auth.user ? (
             <div className='flex justify-between items-center'>
               <Link href='/dashboard'>
-                <a className='text-4xl font-extrabold'>OpenShelf</a>
+                <a className='text-xl sm:text-4xl font-extrabold'>OpenShelf</a>
               </Link>
-              <div className='space-x-4'>
-                <Link href='/about'>
-                  <a className=''>About</a>
-                </Link>
-
+              <div>
                 <button
                   onClick={() => auth.signout()}
                   className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'
@@ -32,11 +28,7 @@ export default function Navbar() {
               <Link href='/'>
                 <a className='text-4xl font-extrabold'>OpenShelf</a>
               </Link>
-              <div className='space-x-4'>
-                <Link href='/about'>
-                  <a className=''>About</a>
-                </Link>
-
+              <div>
                 <Link href='/login'>
                   <a className='whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium bg-indigo-600 text-white'>
                     Login

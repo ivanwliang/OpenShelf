@@ -10,7 +10,7 @@ const BookSearchbar = () => {
     e.preventDefault();
     router.push({
       pathname: '/search',
-      query: { q: search },
+      query: { q: search, page: 1 },
     });
   };
 
