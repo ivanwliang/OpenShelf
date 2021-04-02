@@ -39,7 +39,6 @@ const searchResults = () => {
     }
   }, [router.query.q]);
 
-
   return (
     <div>
       <Navbar />
