@@ -58,7 +58,7 @@ const searchResults = () => {
                 <BookCard
                   bookKey={book.key}
                   title={book.title}
-                  author={book.author_name[0]}
+                  author={book.author_name}
                   coverId={book.cover_i}
                   dashboard={false}
                 />

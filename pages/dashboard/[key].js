@@ -82,7 +82,7 @@ const UserBookDetail = () => {
             <StarRating rating={userRating} uid={uid} bookKey={bookKey} />
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8 mb-16">
             <h2 className="text-3xl font-bold">
               <span className="text-gray-900">Notes</span>
             </h2>

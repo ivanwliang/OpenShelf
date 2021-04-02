@@ -1,9 +1,17 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
-import { createEditor, Editor, Transforms, Text } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
-import debounce from 'debounce';
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { createEditor, Editor, Transforms, Text } from "slate";
+import { Slate, Editable, withReact } from "slate-react";
+import debounce from "debounce";
 
-import { updateNote } from '@/lib/db';
+import { updateNote } from "@/lib/db";
+
+const HOTKEYS = {
+  "mod+b": "bold",
+  "mod+i": "italic",
+  "mod+u": "underline",
+};
+
+const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
 const CustomEditor = {
   isBoldMarkActive(editor) {
@@ -17,7 +25,7 @@ const CustomEditor = {
 
   isCodeBlockActive(editor) {
     const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === 'code',
+      match: (n) => n.type === "code",
     });
 
     return !!match;
@@ -36,7 +44,7 @@ const CustomEditor = {
     const isActive = CustomEditor.isCodeBlockActive(editor);
     Transforms.setNodes(
       editor,
-      { type: isActive ? null : 'code' },
+      { type: isActive ? null : "code" },
       { match: (n) => Editor.isBlock(editor, n) }
     );
   },
@@ -59,7 +67,7 @@ const Leaf = (props) => {
   return (
     <span
       {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' }}
+      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
     >
       {props.children}
     </span>
@@ -71,8 +79,8 @@ export default function Notes({ notes, uid, bookKey }) {
   const [value, setValue] = useState(
     (notes && JSON.parse(notes)) || [
       {
-        type: 'paragraph',
-        children: [{ text: 'Take your book notes here' }],
+        type: "paragraph",
+        children: [{ text: "Take your book notes here" }],
       },
     ]
   );
@@ -81,7 +89,7 @@ export default function Notes({ notes, uid, bookKey }) {
   // `useCallback` here to memoize the function for subsequent renders.
   const renderElement = useCallback((props) => {
     switch (props.element.type) {
-      case 'code':
+      case "code":
         return <CodeElement {...props} />;
       default:
         return <DefaultElement {...props} />;
@@ -103,9 +111,9 @@ export default function Notes({ notes, uid, bookKey }) {
         debounce(updateNote(uid, bookKey, content), 2000);
       }}
     >
-      <div className='border-b border-gray-300 mb-3 pb-4 flex'>
+      <div className="border-b border-gray-300 mb-3 pb-4 flex">
         <button
-          className='relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'
+          className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           onMouseDown={(event) => {
             event.preventDefault();
             CustomEditor.toggleBoldMark(editor);
@@ -114,7 +122,7 @@ export default function Notes({ notes, uid, bookKey }) {
           Bold
         </button>
         <button
-          className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'
+          className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           onMouseDown={(event) => {
             event.preventDefault();
             CustomEditor.toggleCodeBlock(editor);
@@ -152,7 +160,7 @@ export default function Notes({ notes, uid, bookKey }) {
 
           switch (event.key) {
             // ctrl+` for code blocks
-            case '`': {
+            case "`": {
               // Prevent the "`" from being inserted by default.
               event.preventDefault();
               CustomEditor.toggleCodeBlock(editor);
@@ -160,7 +168,7 @@ export default function Notes({ notes, uid, bookKey }) {
             }
 
             // ctrl+b for bold
-            case 'b': {
+            case "b": {
               event.preventDefault();
               CustomEditor.toggleBoldMark(editor);
               break;
