@@ -39,9 +39,6 @@ const searchResults = () => {
     }
   }, [router.query.q]);
 
-  if (loading) {
-    return null;
-  }
 
   return (
     <div>
@@ -55,19 +52,21 @@ const searchResults = () => {
           Didn't find your book? Try adding more keywords, such as the author's
           name.
         </p>
-        <ul className="divide-y divide-gray-200">
-          {books.map((book) => (
-            <li key={book.key}>
-              <BookCard
-                bookKey={book.key}
-                title={book.title}
-                author={book.author_name[0]}
-                coverId={book.cover_i}
-                dashboard={false}
-              />
-            </li>
-          ))}
-        </ul>
+        {!loading && (
+          <ul className="divide-y divide-gray-200">
+            {books.map((book) => (
+              <li key={book.key}>
+                <BookCard
+                  bookKey={book.key}
+                  title={book.title}
+                  author={book.author_name[0]}
+                  coverId={book.cover_i}
+                  dashboard={false}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
