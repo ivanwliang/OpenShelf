@@ -2,6 +2,8 @@
 
 OpenShelf is an online bookshelf app that replicates some of the features of Goodreads. The app is built with Next.js, Firestore, and TailwindCSS. It uses Google and GitHub social auth for user management and provides a simple note-taking interface with Slate.js.
 
+[Live Demo](https://openshelf.vercel.app/dashboard)
+
 ## Initial App Mockup
 
 ![App mockup](Mockup.png)
