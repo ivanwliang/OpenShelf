@@ -22,10 +22,8 @@ const UserBookDetail = () => {
     bookKey,
     cover,
     notes,
-    shelf,
     title,
     userRating,
-    userReview,
   } = bookDetails;
 
   useEffect(() => {
@@ -62,6 +60,7 @@ const UserBookDetail = () => {
           {cover && (
             <img
               className="md:float-left mb-6 md:mr-10 mx-auto"
+              alt={"Book cover"}
               src={`https://covers.openlibrary.org/b/id/${cover}-L.jpg`}
             />
           )}
@@ -83,9 +82,10 @@ const UserBookDetail = () => {
           </div>
 
           <div className="mt-8 mb-16">
-            <h2 className="text-3xl font-bold">
-              <span className="text-gray-900">Notes</span>
-            </h2>
+            <div className={"flex items-baseline space-x-3"}>
+              <h2 className="text-3xl font-bold text-gray-900">Notes</h2>
+              <span className={"text-sm text-gray-500"}>(Autosaves)</span>
+            </div>
             <div className="mt-3 mb-6 py-6 px-6 bg-white shadow-md border border-gray-400 sm:rounded-lg">
               <Notes notes={notes} uid={uid} bookKey={bookKey} />
             </div>

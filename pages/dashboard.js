@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
-import Router from 'next/router';
-import firebase from '@/lib/firebase';
+import { useState, useEffect } from "react";
+import Router from "next/router";
+import firebase from "@/lib/firebase";
 
-import { useAuth } from '@/lib/auth';
-import { getAllBooks } from '@/lib/db';
-import Navbar from '@/components/Navbar';
-import BookSearchbar from '@/components/BookSearchbar';
-import Shelf from '@/components/Shelf';
+import { useAuth } from "@/lib/auth";
+import Navbar from "@/components/Navbar";
+import BookSearchbar from "@/components/BookSearchbar";
+import Shelf from "@/components/Shelf";
 
 const firestore = firebase.firestore();
 
@@ -19,7 +18,7 @@ const Dashboard = () => {
   useEffect(() => {
     // If there is no user even after auth has finished loading, redirect to login page
     if (!auth.user && !auth.loading) {
-      Router.push('/login');
+      Router.push("/login");
     }
   }, [auth]);
 
@@ -28,9 +27,9 @@ const Dashboard = () => {
     // Wait for user to load before fetching books
     if (auth.user) {
       return firestore
-        .collection('users')
+        .collection("users")
         .doc(auth.user.uid)
-        .collection('books')
+        .collection("books")
         .onSnapshot((snapshot) => {
           var result = [];
           snapshot.forEach((doc) => {
@@ -52,12 +51,12 @@ const Dashboard = () => {
     return (
       <div>
         <Navbar />
-        <div className='max-w-7xl mx-auto px-4 sm:px-6'>
-          <div className='max-w-5xl mx-auto py-12 mt-2'>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="max-w-5xl mx-auto py-12 mt-2">
             <BookSearchbar />
           </div>
 
-          <p className='text-center text-xl font-medium text-gray-700 mt-4'>
+          <p className="text-center text-xl font-medium text-gray-700 mt-4">
             Add some books
           </p>
         </div>
@@ -68,20 +67,19 @@ const Dashboard = () => {
   return (
     <div>
       <Navbar />
-      <main className='max-w-7xl mx-auto px-4 sm:px-6'>
-        <div className='max-w-5xl mx-auto py-12 mt-2'>
-          <BookSearchbar />
-        </div>
-
+      <div className="max-w-6xl mx-auto px-6 py-12 mt-2">
+        <BookSearchbar />
+      </div>
+      <div className="max-w-6xl mx-auto px-6">
         {/* Render shelf for "Currently Reading" books */}
-        <Shelf books={books} shelfName='Currently Reading' />
+        <Shelf books={books} shelfName="Currently Reading" />
 
         {/* Render shelf for "Want to Read" books */}
-        <Shelf books={books} shelfName='Want to Read' />
+        <Shelf books={books} shelfName="Want to Read" />
 
         {/* Render shelf for "Finished reading" books */}
-        <Shelf books={books} shelfName='Finished Reading' />
-      </main>
+        <Shelf books={books} shelfName="Finished Reading" />
+      </div>
     </div>
   );
 };

@@ -42,10 +42,10 @@ const searchResults = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 bg-white overflow-hidden sm:rounded-md mb-6">
-        <div className="max-w-6xl mx-auto pt-6 pb-4 mt-2">
-          <BookSearchbar />
-        </div>
+      <div className="max-w-6xl px-6 mx-auto pt-6 pb-4 mt-2">
+        <BookSearchbar />
+      </div>
+      <div className="max-w-6xl mx-auto px-6 bg-white overflow-hidden sm:rounded-md mb-6">
         {/* {numBooksFound !== 0 && numBooksFound} */}
         <p className="text-center text-gray-800 text-sm py-2">
           Didn't find your book? Try adding more keywords, such as the author's

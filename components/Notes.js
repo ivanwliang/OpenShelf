@@ -1,17 +1,9 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { createEditor, Editor, Transforms, Text } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import debounce from "debounce";
 
 import { updateNote } from "@/lib/db";
-
-const HOTKEYS = {
-  "mod+b": "bold",
-  "mod+i": "italic",
-  "mod+u": "underline",
-};
-
-const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
 const CustomEditor = {
   isBoldMarkActive(editor) {
@@ -80,7 +72,7 @@ export default function Notes({ notes, uid, bookKey }) {
     (notes && JSON.parse(notes)) || [
       {
         type: "paragraph",
-        children: [{ text: "Take your book notes here" }],
+        children: [{ text: "Take your book notes here!" }],
       },
     ]
   );
@@ -111,44 +103,44 @@ export default function Notes({ notes, uid, bookKey }) {
         debounce(updateNote(uid, bookKey, content), 2000);
       }}
     >
-      <div className="border-b border-gray-300 mb-3 pb-4 flex">
-        <button
-          className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-          onMouseDown={(event) => {
-            event.preventDefault();
-            CustomEditor.toggleBoldMark(editor);
-          }}
-        >
-          Bold
-        </button>
-        <button
-          className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-          onMouseDown={(event) => {
-            event.preventDefault();
-            CustomEditor.toggleCodeBlock(editor);
-          }}
-        >
-          Code Block
-        </button>
-        {/* <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Italics
-        </button>
-        <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Underline
-        </button>
-        <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Heading 1
-        </button>
-        <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Heading 2
-        </button>
-        <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Quotes
-        </button>
-        <button className='-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>
-          Bullets
-        </button> */}
-      </div>
+      {/*<div className="border-b border-gray-300 mb-3 pb-4 flex">*/}
+      {/*  <button*/}
+      {/*    className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"*/}
+      {/*    onMouseDown={(event) => {*/}
+      {/*      event.preventDefault();*/}
+      {/*      CustomEditor.toggleBoldMark(editor);*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    Bold*/}
+      {/*  </button>*/}
+      {/*  <button*/}
+      {/*    className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"*/}
+      {/*    onMouseDown={(event) => {*/}
+      {/*      event.preventDefault();*/}
+      {/*      CustomEditor.toggleCodeBlock(editor);*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    Code Block*/}
+      {/*  </button>*/}
+      {/*  /!* <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Italics*/}
+      {/*  </button>*/}
+      {/*  <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Underline*/}
+      {/*  </button>*/}
+      {/*  <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Heading 1*/}
+      {/*  </button>*/}
+      {/*  <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Heading 2*/}
+      {/*  </button>*/}
+      {/*  <button className='-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Quotes*/}
+      {/*  </button>*/}
+      {/*  <button className='-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'>*/}
+      {/*    Bullets*/}
+      {/*  </button> *!/*/}
+      {/*</div>*/}
 
       <Editable
         renderElement={renderElement}

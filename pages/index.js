@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
-import Navbar from '../components/Navbar';
-import BookSearchbar from '../components/BookSearchbar';
-import { useAuth } from '../lib/auth';
+import Navbar from "../components/Navbar";
+import BookSearchbar from "../components/BookSearchbar";
+import { useAuth } from "@/lib/auth";
 
 export default function Index() {
   const auth = useAuth();
@@ -10,17 +10,26 @@ export default function Index() {
 
   // Redirect user to dashboard if logged in
   if (auth.user) {
-    router.push('/dashboard');
+    router.push("/dashboard");
   }
 
   return (
-    <div className='bg-white'>
+    <div className="bg-white">
       <Navbar />
-      <main className='max-w-7xl mx-auto px-4 sm:px-6'>
-        <div className='max-w-5xl mx-auto py-12 mt-2'>
-          <BookSearchbar />
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Your Online Bookshelf
+          </h2>
+          <p className="mt-4 text-lg text-gray-500">
+            Search for books to add to your reading list. Take notes, rate, and
+            keep track of your book collection.
+          </p>
         </div>
-      </main>
+      </div>
+      <div className="max-w-6xl px-6 mx-auto mt-2">
+        <BookSearchbar />
+      </div>
     </div>
   );
 }
